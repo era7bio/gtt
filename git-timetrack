@@ -305,7 +305,7 @@ done' > $githook
         fi
         ;;
 
-    -n|--config)
+    config|-n|--config)
         remote=$2
         if [ -z $remote ]
         then
