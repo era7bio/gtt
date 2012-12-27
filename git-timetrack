@@ -313,7 +313,8 @@ done' > $githook
         fi
 
         git config --add remote.$remote.push "refs/notes/timetracker:refs/notes/timetracker"
-        git config --add remote.$remote.push "refs/heads/master:refs/heads/master"
+        # this shouldn't be needed
+        # git config --add remote.$remote.push "refs/heads/master:refs/heads/master"
         git config --add remote.$remote.fetch "+refs/notes/timetracker:refs/notes/remotes/$remote/timetracker"
         git config notes.rewriteRef "refs/notes/timetracker"
         git config notes.displayRef "refs/notes/timetracker"
