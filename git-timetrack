@@ -338,7 +338,7 @@ done' > $githook
         ;;
      timesince|-ts|--timesince)
         current_date=$(date +%s)
-        last=$(git log --date=raw -n 1 | grep Date: | sed 's/ \+/ /g' | cut -d " " -f2)
+        last=$(git log --date=raw -n 1 | grep Date: | sed -E 's/ +/ /g' | cut -d " " -f2)
         t=$(( current_date - last ))
         git timetrack -s
         git timetrack -e $(( $t / 60 ))
