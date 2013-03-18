@@ -263,10 +263,18 @@ case $1 in
 
     addhooks|-o|--addhooks)
 
-        gitdir="$(git rev-parse --git-dir)/hooks"
-        if [ -d $gitdir ]
+        gitdir="$(git rev-parse --git-dir)"
+        if [ ! -d $gitdir ]
         then
-            githook="$gitdir/post-commit"
+            echo "That isn't a git root directory. I wont do anything"
+        else
+        	hooksdir="$gitdir/hooks"
+        	if [ ! -d $hooksdir ]
+        	then 
+        		mkdir $hooksdir 
+        	fi
+
+            post_commit="$hooksdir/post-commit"
 
             echo '#!/bin/bash
 
@@ -284,11 +292,11 @@ then
         git config timetrack.start $(date +%s)
         git config timetrack.hacking $hacking
     fi
-fi' > $githook
+fi' > $post_commit
 
-            chmod +x $githook
+            chmod +x $post_commit
 
-            githook="$gitdir/post-merge"
+            post_merge="$hooksdir/post-merge"
 
             echo '#!/bin/bash
 
@@ -296,12 +304,10 @@ GITDIR=$(git rev-parse --git-dir)
 for remote in $GITDIR/refs/notes/remotes/*
 do
     git timetrack --merge "$(basename $remote)"
-done' > $githook
+done' > $post_merge
 
-            chmod +x $githook
+            chmod +x $post_merge
             echo "hooks created"
-        else
-            echo "That isn't a git root directory. I wont do anything"
         fi
         ;;
 
